@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -14,13 +14,13 @@
     </data>
 
     <LinearLayout
-        android:layout_width="100dp"
-        android:layout_height="133dp"
-        android:layout_margin="7dp"
-        android:background="#191919"
-        android:foreground="@drawable/ripple"
+        android:layout_width="@dimen/image_feed_item_width"
+        android:layout_height="@dimen/image_feed_item_height"
+        android:layout_margin="@dimen/image_feed_item_margin"
+        android:background="@color/components_background"
         android:clickable="true"
         android:focusable="true"
+        android:foreground="@drawable/ripple"
         android:gravity="center"
         android:onClick="@{() -> listener.onClick(imageData)}"
         android:orientation="vertical">
@@ -30,8 +30,8 @@
             android:layout_height="match_parent">
 
             <ProgressBar
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/progress_bar_size"
+                android:layout_height="@dimen/progress_bar_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
                 android:id="@+id/iv_feed_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/image_feed_item_feed_image_content_description"
                 android:scaleType="centerInside"
                 android:src="@drawable/baseline_image_24"
                 app:layout_constraintBottom_toBottomOf="parent"

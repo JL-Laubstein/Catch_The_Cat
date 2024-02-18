@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import com.example.catchthecat.R
 import com.example.catchthecat.application.AppApplication
 import com.example.catchthecat.databinding.FragmentImageFeedBinding
 import com.example.catchthecat.ui.adapter.ImageFeedAdapter
@@ -14,7 +15,6 @@ import com.example.catchthecat.ui.adapter.ImageListener
 import com.example.catchthecat.ui.imagedetail.ImageDetailFragment
 import com.example.catchthecat.util.Utils
 
-private const val FETCH_THE_CAT = "cat"
 class ImageFeedFragment : Fragment() {
 
     companion object {
@@ -56,13 +56,13 @@ class ImageFeedFragment : Fragment() {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "The device does not have an internet connection.",
+                    resources.getString(R.string.image_feed_fragment_no_internet_toast),
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }
 
-        viewModel.getImagesFromApi(FETCH_THE_CAT)
+        viewModel.getImagesFromApi(resources.getString(R.string.image_feed_fragment_default_search))
 
         return binding.root
     }

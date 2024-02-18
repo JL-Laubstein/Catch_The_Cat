@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Catch The Cat</string>
+    <string name="image_detail_image_selected_content_description">Selected image</string>
+    <string name="image_feed_item_feed_image_content_description">Fetched image</string>
+    <string name="image_feed_screen_edit_text_default_search">Cat</string>
+    <string name="image_feed_screen_search_button_content_description">Search button</string>
+    <string name="image_feed_fragment_no_internet_toast">The device does not have an internet connection.</string>
+    <string name="image_feed_fragment_default_search">cat</string>
 </resources>

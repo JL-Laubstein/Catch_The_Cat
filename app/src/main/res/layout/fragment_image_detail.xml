@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="fragment"
             type="com.example.catchthecat.ui.imagefeed.ImageFeedFragment" />
@@ -17,17 +17,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#2B2B2B"
-        android:orientation="vertical"
+        android:background="@color/background_color"
         android:gravity="center"
+        android:orientation="vertical"
         tools:context=".ui.imagedetail.ImageDetailFragment">
 
         <ImageView
             android:id="@+id/iv_image_selected"
-            android:layout_width="300dp"
-            android:layout_height="400dp"
-            android:layout_marginBottom="15dp"
-            android:contentDescription="TODO"
+            android:layout_width="@dimen/image_detail_width"
+            android:layout_height="@dimen/image_detail_height"
+            android:layout_marginBottom="@dimen/image_detail_margin_bottom"
+            android:contentDescription="@string/image_detail_image_selected_content_description"
             android:scaleType="fitCenter"
             bind:image="@{imageData.images[0].link}"
             tools:src="@drawable/baseline_image_24" />
@@ -36,10 +36,10 @@
             android:id="@+id/tv_image_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="@dimen/image_detail_margin_bottom"
             android:text="@{imageData.title}"
-            android:textSize="18sp"
-            android:textColor="#9F9F9F"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/image_detail_title_text_size"
             tools:text="Image title" />
 
     </LinearLayout>
