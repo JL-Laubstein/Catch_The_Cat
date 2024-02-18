@@ -1,8 +1,8 @@
 package com.example.catchthecat.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.example.catchthecat.R
 import com.example.catchthecat.data.model.ImageData
 import com.example.catchthecat.databinding.ImageFeedItemBinding
-import com.facebook.shimmer.ShimmerFrameLayout
 
 class ImageFeedAdapter(private val imageListener: ImageListener) :
     ListAdapter<ImageData, ImageFeedAdapter.ImageFeedViewHolder>(DiffCallback) {
@@ -31,34 +30,26 @@ class ImageFeedAdapter(private val imageListener: ImageListener) :
         return ImageFeedViewHolder(
             ImageFeedItemBinding.inflate(
                 LayoutInflater.from(parent.context),
-                parent,
-                false
+                parent, false
             )
         )
     }
 
     override fun onBindViewHolder(holder: ImageFeedViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), imageListener)
     }
 
-    inner class ImageFeedViewHolder(binding: ImageFeedItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val shimmerLayout: ShimmerFrameLayout = binding.shimmerLayout
-        private val feedImage = binding.ivFeedImage
-        private val bindingRoot = binding.root
+    inner class ImageFeedViewHolder(private val binding: ImageFeedItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(imageData: ImageData, listener: ImageListener) {
+            binding.imageData = imageData
+            binding.listener = listener
 
-        fun bind(imageData: ImageData) {
-            Glide.with(bindingRoot)
-                .load(R.drawable.baseline_image_24)
-                .into(feedImage)
+            binding.ivFeedImage.scaleType =
+                if (imageData.images.isNullOrEmpty()) ImageView.ScaleType.CENTER_INSIDE else ImageView.ScaleType.CENTER_CROP
 
-            shimmerLayout.stopShimmer()
-
-            Glide.with(bindingRoot)
+            Glide.with(binding.root)
                 .load(if (imageData.images.isNullOrEmpty()) R.drawable.baseline_error_24 else imageData.images[0].link)
-                .into(feedImage)
-
-            Log.i("JAO", "Image URL: ${if (imageData.images.isNullOrEmpty()) "Error" else imageData.images[0].link}")
-            Log.i("JAO", "Image Title: ${imageData.title}")
+                .into(binding.ivFeedImage)
         }
     }
 }

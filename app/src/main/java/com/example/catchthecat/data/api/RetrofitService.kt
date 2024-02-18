@@ -1,7 +1,8 @@
 package com.example.catchthecat.data.api
 
 import com.example.catchthecat.data.model.GetImageData
-import com.example.catchthecat.data.model.ImageData
+import com.example.catchthecat.BuildConfig
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,15 +15,22 @@ private const val BASE_URL = "https://api.imgur.com"
  */
 interface RetrofitService {
     @GET("3/gallery/search")
-    fun getImages(@Header("Authorization") auth: String, @Query("q") query: String): Call<GetImageData>
+    fun getImages(@Query("q") query: String): Call<GetImageData>
 }
 
 /**
- * Singleton do retrofit.
+ * Retrofit singleton.
  */
-object ReceiptApi {
+object ImgurApi {
+    private const val authToken = BuildConfig.AUTH
+
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor(AuthInterceptor(authToken))
+                .build()
+        )
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

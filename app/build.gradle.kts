@@ -4,6 +4,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs")
     id("kotlin-parcelize")
+    id("kotlin-kapt")
 }
 
 android {
@@ -18,6 +19,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "AUTH", "\"Client-ID 1ceddedc03a5d71\"")
 
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
@@ -36,6 +39,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        buildConfig = true
     }
     dataBinding {
         enable = true
@@ -87,7 +93,4 @@ dependencies {
     // Bumptech Glide
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
-
-    // Facebook Shimmer
-    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

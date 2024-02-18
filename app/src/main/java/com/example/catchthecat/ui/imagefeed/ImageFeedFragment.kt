@@ -1,27 +1,31 @@
 package com.example.catchthecat.ui.imagefeed
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.catchthecat.R
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import com.example.catchthecat.application.AppApplication
 import com.example.catchthecat.databinding.FragmentImageFeedBinding
 import com.example.catchthecat.ui.adapter.ImageFeedAdapter
 import com.example.catchthecat.ui.adapter.ImageListener
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+import com.example.catchthecat.ui.imagedetail.ImageDetailFragment
+import com.example.catchthecat.util.Utils
 
+private const val FETCH_THE_CAT = "cat"
 class ImageFeedFragment : Fragment() {
 
     companion object {
         fun newInstance() = ImageFeedFragment()
     }
 
-    private val viewModel: ImageFeedViewModel by viewModel()
+    private val viewModel: ImageFeedViewModel by activityViewModels {
+        ImageFeedViewModelFactory(
+            (requireActivity().application as AppApplication).database.imageFeedDao()
+        )
+    }
 
     private val binding: FragmentImageFeedBinding by lazy {
         FragmentImageFeedBinding.inflate(layoutInflater)
@@ -32,23 +36,33 @@ class ImageFeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel.imageList.observe(viewLifecycleOwner) {
+            viewModel.setImages(it)
+
             val imageFeedAdapter = ImageFeedAdapter(ImageListener(
                 clickListener = { imageData ->
-                    // TODO
+                    val imageDetailFragment = ImageDetailFragment(imageData)
+                    imageDetailFragment.show(requireActivity().supportFragmentManager, "detail")
                 }
             ))
 
             binding.feedImagesRecyclerview.adapter = imageFeedAdapter
 
-            Log.i("JAO", "list: $it")
             imageFeedAdapter.submitList(it)
         }
 
         binding.btSearch.setOnClickListener {
-            viewModel.getCatImages("Client-ID 1ceddedc03a5d71", binding.etQuery.text.toString())
+            if (Utils.isNetworkAvailable(requireContext())) {
+                viewModel.getImagesFromApi(binding.etQuery.text.toString())
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "The device does not have an internet connection.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
-        viewModel.getCatImages("Client-ID 1ceddedc03a5d71", "cat")
+        viewModel.getImagesFromApi(FETCH_THE_CAT)
 
         return binding.root
     }

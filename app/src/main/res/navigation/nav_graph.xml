@@ -9,5 +9,13 @@
         android:id="@+id/imageFeedFragment"
         android:name="com.example.catchthecat.ui.imagefeed.ImageFeedFragment"
         android:label="fragment_image_feed"
-        tools:layout="@layout/fragment_image_feed" />
+        tools:layout="@layout/fragment_image_feed" >
+        <action
+            android:id="@+id/action_imageFeedFragment_to_imageDetailFragment"
+            app:destination="@id/imageDetailFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/imageDetailFragment"
+        android:name="com.example.catchthecat.ui.imagedetail.ImageDetailFragment"
+        android:label="ImageDetailFragment" />
 </navigation>
